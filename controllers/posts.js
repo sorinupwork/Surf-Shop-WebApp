@@ -12,7 +12,7 @@ module.exports = {
   //Posts Index
   async postIndex(req, res, next) {
     let posts = await Post.find({});
-    res.render('posts/index', { posts });
+    res.render('posts/index', { posts, title: 'Posts Index' });
   },
   //Posts New
   postNew(req, res, next) {
@@ -35,11 +35,15 @@ module.exports = {
       .send();
     req.body.post.coordinates = response.body.features[0].geometry.coordinates;
     let post = await Post.create(req.body.post);
+    req.session.success = 'Post created successfully'
     res.redirect(`/posts/${post.id}`);
   },
   //Posts Show
   async postShow(req, res, next) {
-    let post = await Post.findById(req.params.id);
+    let post = await Post.findById(req.params.id).populate({
+      path: 'reviews',
+      options: { sort: { '_id': -1 } }
+    });
     res.render('posts/show', {post});
   },
   //Posts Edit
