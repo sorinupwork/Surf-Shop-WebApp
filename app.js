@@ -11,6 +11,8 @@ const User = require('./models/user');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+// const seedPosts = require('./seeds');
+// seedPosts();
 
 //require routes
 const index   = require('./routes/index');
@@ -63,7 +65,7 @@ app.use(function(req, res, next) {
         "_id" : "5e9f3f4524257819b059e8b2",
         "username" : "ian"
       }
-  res.locals.currentUser = req.user;    
+  res.locals.currentUser = req.user;
   //set default page title
   res.locals.title = 'Surf-Shop';
   //set success flash message
