@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const createError    = require('http-errors');
 const express        = require('express');
 const engine         = require('ejs-mate');
@@ -11,6 +12,7 @@ const User = require('./models/user');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const favicon = require('serve-favicon');
 // const seedPosts = require('./seeds');
 // seedPosts();
 
@@ -22,7 +24,7 @@ const reviews = require('./routes/reviews');
 const app = express();
 
 //connect to the database
-mongoose.connect('mongodb://localhost:27017/surf-shop', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
+mongoose.connect('mongodb://localhost:27017/surf-shop', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -38,6 +40,7 @@ app.set('view engine', 'ejs');
 //set public assets directory
 app.use(express.static('public'));
 
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -61,12 +64,12 @@ passport.deserializeUser(User.deserializeUser());
 
 //set local variables middleware
 app.use(function(req, res, next) {
-  req.user = {
-        // "_id" : "5e9f3f4524257819b059e8b2",
-        // "_id" : "5e9f846dfc1fb417cc674d68",
-        "_id" : "5ea00fdd28bb1f0da88dada5",
-        "username" : "ian3"
-      }
+  // req.user = {
+  //       // "_id" : "5e9f3f4524257819b059e8b2",
+  //       // "_id" : "5e9f846dfc1fb417cc674d68",
+  //       "_id" : "5ea00fdd28bb1f0da88dada5",
+  //       "username" : "ian3"
+  //     }
   res.locals.currentUser = req.user;
   //set default page title
   res.locals.title = 'Surf-Shop';
