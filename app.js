@@ -1,18 +1,16 @@
 require('dotenv').config();
 
-const createError    = require('http-errors');
 const express        = require('express');
 const engine         = require('ejs-mate');
 const path           = require('path');
-const cookieParser   = require('cookie-parser');
+const favicon        = require('serve-favicon');
 const logger         = require('morgan');
-const bodyparser     = require('body-parser');
+const cookieParser   = require('cookie-parser');
 const passport       = require('passport');
 const User = require('./models/user');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const favicon = require('serve-favicon');
 // const seedPosts = require('./seeds');
 // seedPosts();
 
@@ -24,7 +22,12 @@ const reviews = require('./routes/reviews');
 const app = express();
 
 //connect to the database
-mongoose.connect('mongodb://localhost:27017/surf-shop', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
+mongoose.connect('mongodb://localhost:27017/surf-shop', {
+  useNewUrlParser: true, 
+  useUnifiedTopology: true, 
+  useFindAndModify: false,
+  useCreateIndex: true
+});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
